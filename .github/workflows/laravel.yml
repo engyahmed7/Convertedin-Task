@@ -28,26 +28,32 @@ jobs:
         sudo apt-get install -y mysql-server
         sudo service mysql start
 
-    - name: Stop MySQL Server
-      run: sudo service mysql stop
+    - name: Ensure MySQL is running
+      run: |
+        sudo service mysql status
 
-    - name: Start MySQL with Skip Grants Tables
+    - name: Stop MySQL server
+      run: |
+        sudo service mysql stop
+
+    - name: Start MySQL server with --skip-grant-tables
       run: |
         sudo mysqld_safe --skip-grant-tables &
-        sleep 30
+        sleep 5
 
-    - name: Update Root Password
+    - name: Update MySQL root user password
       run: |
         sudo mysql -e "FLUSH PRIVILEGES;"
         sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
         sudo mysql -e "FLUSH PRIVILEGES;"
 
-    - name: Restart MySQL Server
-      run: sudo service mysql restart
-
-    - name: Create Database
+    - name: Restart MySQL server normally
       run: |
-        mysql -u root -ppassword -e "CREATE DATABASE IF NOT EXISTS task_management;"
+        sudo service mysql restart
+
+    - name: Create database
+      run: |
+        mysql -u root -p'password' -e "CREATE DATABASE task_management;"
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
