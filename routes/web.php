@@ -4,9 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\StatisticsController;
 
-// Route::get('/',[TaskController::class, 'create'], function () {
-//     return view('tasks.create');
-// });
+Route::get('/', [TaskController::class, 'create'])->name('tasks.create');;
 
 
 Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
