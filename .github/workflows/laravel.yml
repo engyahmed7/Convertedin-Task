@@ -26,23 +26,26 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-server
-        sudo service mysql start
 
-    - name: Start MySQL in Safe Mode
+    - name: Start MySQL Service
       run: |
-        sudo systemctl stop mysql
-        sudo mysqld_safe --skip-grant-tables &
-        sleep 10
+        sudo service mysql start
+        sleep 10 
+
+    - name: Check MySQL Service Status
+      run: |
+        sudo service mysql status
+
+    - name: Initialize MySQL (if necessary)
+      run: |
+        if [ ! -d "/var/lib/mysql/mysql" ]; then
+          sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+        fi
 
     - name: Configure MySQL
       run: |
-        mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
-        mysql -u root -e "FLUSH PRIVILEGES;"
-
-    - name: Restart MySQL Service
-      run: |
-        sudo systemctl stop mysql
-        sudo systemctl start mysql
+        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+        sudo mysql -e "FLUSH PRIVILEGES;"
 
     - name: Create database and user
       run: |
