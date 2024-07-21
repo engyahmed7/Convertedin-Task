@@ -32,6 +32,7 @@ jobs:
       run: |
         if [ ! -d "/var/lib/mysql/mysql" ]; then
           sudo mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+          sudo service mysql restart
         fi
 
     - name: Configure MySQL
