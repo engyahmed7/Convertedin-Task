@@ -14,7 +14,9 @@
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                        <li>
+                            <b>{{ $error }}</b>
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -53,7 +55,7 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-block">Create Task</button>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Create Task</button>
                     </form>
                 </div>
             </div>

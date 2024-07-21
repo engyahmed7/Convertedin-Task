@@ -13,8 +13,6 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize()
     {
-        // You can add your authorization logic here.
-        // For now, we'll return true to allow all requests.
         return true;
     }
 
