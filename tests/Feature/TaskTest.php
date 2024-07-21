@@ -18,7 +18,7 @@ class TaskTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this
-        ->withoutMiddleware()
+        // ->withoutMiddleware()
         ->post('/tasks', [
             'title' => 'Sample Task',
             'description' => 'Sample Description',
