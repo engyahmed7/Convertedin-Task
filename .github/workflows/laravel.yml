@@ -49,19 +49,6 @@ jobs:
         FLUSH PRIVILEGES;
         EOF
 
-    - name: Restart MySQL server normally
-      run: |
-          sudo service mysql stop || true
-          sleep 5
-          sudo service mysql start
-          sleep 10
-
-    - name: Check MySQL status
-      run: |
-          sudo systemctl status mysql.service
-          sudo journalctl -xeu mysql.service
-
-
     - name: Create database
       run: |
         sudo mysql -u root -ppassword -e "CREATE DATABASE task_management;"
