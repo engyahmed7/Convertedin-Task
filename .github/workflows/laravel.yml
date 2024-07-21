@@ -26,12 +26,15 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-server
-        sudo service mysql start
 
     - name: Ensure MySQL socket directory exists
       run: |
         sudo mkdir -p /var/run/mysqld
         sudo chown mysql:mysql /var/run/mysqld
+
+    - name: Remove existing MySQL data directory
+      run: |
+        sudo rm -rf /var/lib/mysql/*
 
     - name: Initialize MySQL data directory
       run: |
