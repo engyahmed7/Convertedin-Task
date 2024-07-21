@@ -68,7 +68,7 @@ php artisan test
 
 ### GitHub Actions
 
-The application uses GitHub Actions to confirm that tests run successfully after each commit. The configuration file for GitHub Actions is located in `.github/workflows/laravel-ci.yml`.
+The application uses GitHub Actions to confirm that tests run successfully after each commit. The configuration file for GitHub Actions is located in `.github/workflows/laravel.yml`.
 
 ### Bonus Features
 
@@ -77,7 +77,7 @@ The application uses GitHub Actions to confirm that tests run successfully after
 2. **GitHub Actions Integration**: The GitHub Actions workflow is configured to run tests automatically after each commit. This helps ensure that your application remains functional and that any issues are caught early.
 
 3. **Update Statistics Table Using Background Job**:
-    - A background job is set up to update the statistics table. Ensure that the job is properly configured in Laravel by checking your `app/Console/Kernel.php` file and relevant job classes.
+    - A background job is set up to update the statistics table. 
     - To configure the background job, make sure you have a queue driver configured in your `.env` file and that your queue worker is running. For example, you can run the following command to start the queue worker:
 
       ```bash
