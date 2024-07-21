@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Statistic;
 use App\Jobs\UpdateStatistics;
+use Illuminate\Support\Facades\Log;
+
 
 class TaskController extends Controller
 {
@@ -18,21 +20,29 @@ class TaskController extends Controller
         return view('tasks.create', compact('admins', 'users'));
     }
 
+
     public function store(Request $request)
     {
+        Log::info('Request data:', $request->all());
+
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'assigned_to_id' => 'required|exists:users,id',
             'assigned_by_id' => 'required|exists:admins,id',
         ]);
 
-        // Task::create($request->only('title', 'description', 'assigned_to_id', 'assigned_by_id'));
-        Task::create($request->all());
-        UpdateStatistics::dispatch();
+        try {
+            Task::create($request->all());
+            UpdateStatistics::dispatch();
+        } catch (\Exception $e) {
+            Log::error('Error creating task: ' . $e->getMessage());
+            throw $e;
+        }
 
-        return redirect()->route('tasks.index');
+        return redirect('/tasks');
     }
+
 
     public function index()
     {
