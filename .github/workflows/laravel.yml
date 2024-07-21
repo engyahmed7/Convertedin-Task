@@ -28,14 +28,15 @@ jobs:
         sudo apt-get install -y mysql-server
         sudo service mysql start
 
-    - name: Secure MySQL Installation
+    - name: Configure MySQL
       run: |
-        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
+        sleep 30
+        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
         sudo mysql -e "FLUSH PRIVILEGES;"
 
     - name: Create database
       run: |
-        mysql -u root -e "CREATE DATABASE IF NOT EXISTS task_management;"
+        mysql -u root -ppassword -e "CREATE DATABASE IF NOT EXISTS task_management;"
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
