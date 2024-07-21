@@ -28,21 +28,19 @@ jobs:
         sudo apt-get install -y mysql-server
         sudo service mysql start
 
-    - name: Ensure MySQL is running
-      run: sudo service mysql status
-
-    - name: Stop MySQL server
-      run: sudo service mysql stop
-
-    - name: Create mysqld directory for UNIX socket file
+    - name: Ensure MySQL socket directory exists
       run: |
         sudo mkdir -p /var/run/mysqld
         sudo chown mysql:mysql /var/run/mysqld
 
-    - name: Start MySQL server with --skip-grant-tables
+    - name: Initialize MySQL data directory
+      run: |
+        sudo mysqld --initialize-insecure --user=mysql --datadir=/var/lib/mysql
+
+    - name: Start MySQL server in safe mode
       run: |
         sudo mysqld_safe --skip-grant-tables &
-        sleep 5
+        sleep 10
 
     - name: Update MySQL root user password
       run: |
@@ -53,11 +51,10 @@ jobs:
     - name: Restart MySQL server normally
       run: |
         sudo service mysql restart
-        sleep 10
 
     - name: Create database
       run: |
-        mysql -u root -ppassword -e "CREATE DATABASE task_management;"
+        mysql -u root -p'password' -e "CREATE DATABASE task_management;"
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
