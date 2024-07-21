@@ -9,7 +9,7 @@ use App\Models\Admin;
 use App\Models\Statistic;
 use App\Jobs\UpdateStatistics;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Requests\StoreTaskRequest;
 
 class TaskController extends Controller
 {
@@ -21,26 +21,19 @@ class TaskController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         Log::info('Request data:', $request->all());
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'assigned_to_id' => 'required|exists:users,id',
-            'assigned_by_id' => 'required|exists:admins,id',
-        ]);
-
         try {
-            Task::create($request->all());
+            Task::create($request->validated());
             UpdateStatistics::dispatch();
         } catch (\Exception $e) {
             Log::error('Error creating task: ' . $e->getMessage());
             throw $e;
         }
 
-        return redirect('/tasks');
+        return redirect('/tasks')->with('success', 'Task created successfully!');
     }
 
 
