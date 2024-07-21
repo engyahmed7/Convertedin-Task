@@ -22,6 +22,23 @@ jobs:
         php-version: '8.2'
         extensions: mbstring, bcmath, sqlite3, xml, curl, mysql
 
+    - name: Install MySQL
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mysql-server
+        sudo service mysql start
+
+    - name: Configure MySQL
+      run: |
+        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';"
+        sudo mysql -e "FLUSH PRIVILEGES;"
+
+    - name: Create database and user
+      run: |
+        mysql -u root -ppassword -e "CREATE DATABASE task_management;"
+        mysql -u root -ppassword -e "GRANT ALL PRIVILEGES ON task_management.* TO 'task_user'@'localhost' IDENTIFIED BY 'task_password';"
+        mysql -u root -ppassword -e "FLUSH PRIVILEGES;"
+
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
@@ -30,12 +47,6 @@ jobs:
 
     - name: Generate application key
       run: php artisan key:generate
-
-    - name: Create database
-      run: |
-        sudo apt-get install -y mysql-server
-        sudo service mysql start
-        mysql -e 'CREATE DATABASE task_management;'
 
     - name: Configure Laravel database
       run: php artisan config:cache
