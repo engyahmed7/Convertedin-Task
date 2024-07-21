@@ -13,40 +13,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: mbstring, bcmath
-          coverage: none
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, bcmath, sqlite3, xml, curl, mysql
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
 
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
+    - name: Copy .env.example to .env
+      run: cp .env.example .env
 
-      - name: Generate application key
-        run: php artisan key:generate
+    - name: Generate application key
+      run: php artisan key:generate
 
-      - name: Create database
-        run: |
-          sudo apt-get install -y mysql-server
-          sudo service mysql start
-          mysql -e 'CREATE DATABASE task_management;'
+    - name: Create database
+      run: |
+        sudo apt-get install -y mysql-server
+        sudo service mysql start
+        mysql -e 'CREATE DATABASE task_management;'
 
-      - name: Configure Laravel database
-        run: php artisan config:cache
+    - name: Configure Laravel database
+      run: php artisan config:cache
 
-      - name: Run migrations
-        run: php artisan migrate
+    - name: Run migrations
+      run: php artisan migrate
 
-      - name: Seed database
-        run: |
-          php artisan db:seed --class=UsersTableSeeder
-          php artisan db:seed --class=AdminsTableSeeder
+    - name: Seed database
+      run: |
+        php artisan db:seed --class=UsersTableSeeder
+        php artisan db:seed --class=AdminsTableSeeder
 
-      - name: Run tests
-        run: php artisan test
+    - name: Run tests
+      run: php artisan test
