@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +17,13 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\StartApplication::class,
     ];
-    
+
+    protected $routeMiddleware = [
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.admin' => \App\Http\Middleware\AdminUserAuthenticate::class,
+        'auth.web' => \App\Http\Middleware\Authenticate::class,
+    ];
+
 
     /**
      * Define the application's command schedule.
@@ -37,6 +44,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+
 
         require base_path('routes/console.php');
     }

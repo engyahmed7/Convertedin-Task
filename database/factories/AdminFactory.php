@@ -19,8 +19,8 @@ class AdminFactory extends Factory
      * @return array<string, mixed>
      */
 
-     protected $model = Admin::class;
-     
+    protected $model = Admin::class;
+    
     public function definition(): array
     {
         return [
