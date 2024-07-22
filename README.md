@@ -118,7 +118,7 @@ The application uses GitHub Actions to confirm that tests run successfully after
 
 ## Video Demo
 
-Explore a comprehensive demonstration of the Scentence E-Commerce in action via the following video:
+Explore a comprehensive demonstration via the following video:
 
 [![Task Management Application Demo](https://img.youtube.com/vi/KMaNQDfokpg/0.jpg)](https://www.youtube.com/watch?v=KMaNQDfokpg)
 
