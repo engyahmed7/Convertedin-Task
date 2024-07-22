@@ -115,6 +115,14 @@ The application uses GitHub Actions to confirm that tests run successfully after
     - Admins can access all task management routes.
     - Users can only access their assigned tasks and their profile.
 
+
+## Video Demo
+
+Explore a comprehensive demonstration of the Scentence E-Commerce in action via the following video:
+
+[![Task Management Application Demo]](https://www.youtube.com/watch?v=KMaNQDfokpg)
+
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request with your changes.
