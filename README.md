@@ -2,13 +2,16 @@
 
 ## Overview
 
-This is a Laravel-based task management application that allows admins to create tasks, assign them to users, and view task statistics. It includes functionality for task creation, task listing, and viewing statistics. Additionally, the application features automated testing and background job processing.
+This is a Laravel-based task management application that allows admins to create tasks, assign them to users, and view task statistics. It includes functionality for task creation, task listing, and viewing statistics. Additionally, the application features automated testing and background job processing with built-in authentication and authorization.
 
 ## Features
 
 - **Task Creation**: Admins can create tasks and assign them to users.
-- **Task Listing**: Users and admins can view a list of tasks.
+- **Task Listing**: Users and admins can view a list of tasks. Admins see all tasks, while users see only their assigned tasks.
 - **Task Statistics**: Admins can view various statistics related to tasks.
+- **Authentication & Authorization**: 
+  - Admins and users have separate authentication guards.
+  - Admins can access task management routes, while users can only access their tasks and profile.
 
 ## Getting Started
 
@@ -30,7 +33,7 @@ This is a Laravel-based task management application that allows admins to create
 2. **Install Composer Dependencies**
 
     ```bash
-    composer install --prefer-dist --no-progress
+    composer install
     ```
 
 ### Running the Application
@@ -58,6 +61,30 @@ php artisan db:seed --class=UsersTableSeeder
 php artisan db:seed --class=AdminsTableSeeder
 ```
 
+### Authentication Setup
+
+The application uses Laravel Breeze for authentication. To set it up, follow these steps:
+
+1. **Install Laravel Breeze**
+
+    ```bash
+    composer require laravel/breeze --dev
+    php artisan breeze:install
+    npm install && npm run dev
+    ```
+
+2. **Run Migrations**
+
+    ```bash
+    php artisan migrate
+    ```
+
+3. **Set Up Authentication**
+
+    - Admin and user guards are set up in `config/auth.php`.
+    - Admin routes use the `auth:admin` middleware.
+    - User routes use the `auth:web` middleware.
+
 ### Testing
 
 Run the tests to ensure everything is working correctly:
@@ -83,6 +110,10 @@ The application uses GitHub Actions to confirm that tests run successfully after
       ```bash
       php artisan queue:work
       ```
+
+4. **Authorization**:
+    - Admins can access all task management routes.
+    - Users can only access their assigned tasks and their profile.
 
 ## Contributing
 
